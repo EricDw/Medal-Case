@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Medal Case</string>
+    <string name="title_achievements">Achievements</string>
+    <string name="title_personal_records">Personal Records</string>
+    <string name="label_n_of_n">{0} of {1}</string>
+    <string name="label_longest_run">Longest Run</string>
+    <string name="label_highest_elevation">Highest Elevation</string>
+    <string name="label_elevation_in_feet">{0} ft</string>
+    <string name="label_Fastest_5_k">Fastest 5K</string>
+    <string name="label_10_k">10K</string>
+    <string name="label_half_marathon">Half Marathon</string>
+    <string name="label_marathon">Marathon</string>
+    <string name="label_incomplete_record">Not Yet</string>
+    <string name="title_virtual_races">Virtual Races</string>
 </resources>
