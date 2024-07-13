@@ -2,10 +2,12 @@
     <string name="app_name">Medal Case</string>
     <string name="title_achievements">Achievements</string>
     <string name="title_personal_records">Personal Records</string>
-    <string name="label_n_of_n">{0} of {1}</string>
+    <string name="label_n_of_n">%1$d of %2$d</string>
+    <string name="label_time_hours_minutes">%1$s:%2$s</string>
+    <string name="label_time_hours_minutes_seconds">%1$s:%2$s:%3$s</string>
     <string name="label_longest_run">Longest Run</string>
     <string name="label_highest_elevation">Highest Elevation</string>
-    <string name="label_elevation_in_feet">{0} ft</string>
+    <string name="label_elevation_in_feet">%1$d ft</string>
     <string name="label_Fastest_5_k">Fastest 5K</string>
     <string name="label_10_k">10K</string>
     <string name="label_half_marathon">Half Marathon</string>
