@@ -185,7 +185,12 @@ fun MedalCaseScreen(
                         Modifier
                             .background(color = SecondaryLightGray)
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(
+                                start = 16.dp,
+                                top = 8.dp,
+                                end = 16.dp,
+                                bottom = 8.dp,
+                            ),
                     ) {
                         Text(
                             text = stringResource(id = R.string.title_virtual_races),
