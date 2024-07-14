@@ -4,6 +4,7 @@
 
 This project was built for the ASICS programming challenge.
 It's built using Jetpack Compose for the UI and follows the MVVM pattern.
+No form of AI assistance was used in the making of this work.
 
 The project can be built and run using Android Studio Giraffe and above.
 
