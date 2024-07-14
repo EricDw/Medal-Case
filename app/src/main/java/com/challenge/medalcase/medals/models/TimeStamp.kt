@@ -6,5 +6,5 @@ package com.challenge.medalcase.medals.models
 data class TimeStamp(
     val hours: String = "00",
     val minutes: String = "00",
-    val seconds: String = "00",
+    val seconds: String? = null,
 )

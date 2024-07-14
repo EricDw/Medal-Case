@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -30,13 +32,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import com.challenge.medalcase.R
 import com.challenge.medalcase.medals.models.Achievement
+import com.challenge.medalcase.medals.models.TimeStamp
+import com.challenge.medalcase.medals.samples.ImageURL
 import com.challenge.medalcase.medals.viewmodel.MedalCaseScreenViewModel
 import com.challenge.medalcase.ui.theme.MedalCaseTheme
 import com.challenge.medalcase.ui.theme.SecondaryLightGray
@@ -226,19 +234,17 @@ private fun RowScope.PersonalRecordItem(
     val label: String
     var subLabel: String
 
+    val timeStampLabel = getTimeStampLabel(timestamp = personalRecord.timeStamp)
+
     when (personalRecord) {
-        is Achievement.PersonalRecord.LongestRun -> {
-            imageResourceId = R.mipmap.longest_run
+        is Achievement.PersonalRecord.LongestRun       -> {
+            imageResourceId = R.drawable.longest_run
             label = stringResource(id = R.string.label_longest_run)
-            subLabel = stringResource(
-                id = R.string.label_time_hours_minutes,
-                personalRecord.timeStamp.hours,
-                personalRecord.timeStamp.minutes,
-            )
+            subLabel = timeStampLabel
         }
 
         is Achievement.PersonalRecord.HighestElevation -> {
-            imageResourceId = R.mipmap.highest_elevation
+            imageResourceId = R.drawable.highest_elevation
             label = stringResource(id = R.string.label_highest_elevation)
             subLabel = stringResource(
                 id = R.string.label_elevation_in_feet,
@@ -246,45 +252,28 @@ private fun RowScope.PersonalRecordItem(
             )
         }
 
-        is Achievement.PersonalRecord.FastestFiveK -> {
-            imageResourceId = R.mipmap.fastest_5k
+        is Achievement.PersonalRecord.FastestFiveK     -> {
+            imageResourceId = R.drawable.fastest_5k
             label = stringResource(id = R.string.label_Fastest_5_k)
-            subLabel = stringResource(
-                id = R.string.label_time_hours_minutes,
-                personalRecord.timeStamp.hours,
-                personalRecord.timeStamp.minutes,
-            )
+            subLabel = timeStampLabel
         }
 
-        is Achievement.PersonalRecord.TenK -> {
-            imageResourceId = R.mipmap.fastest_10k
+        is Achievement.PersonalRecord.TenK             -> {
+            imageResourceId = R.drawable.fastest_10k
             label = stringResource(id = R.string.label_10_k)
-            subLabel = stringResource(
-                id = R.string.label_time_hours_minutes_seconds,
-                personalRecord.timeStamp.hours,
-                personalRecord.timeStamp.minutes,
-                personalRecord.timeStamp.seconds,
-            )
+            subLabel = timeStampLabel
         }
 
-        is Achievement.PersonalRecord.HalfMarathon -> {
-            imageResourceId = R.mipmap.half_marathon
+        is Achievement.PersonalRecord.HalfMarathon     -> {
+            imageResourceId = R.drawable.half_marathon
             label = stringResource(id = R.string.label_half_marathon)
-            subLabel = stringResource(
-                id = R.string.label_time_hours_minutes,
-                personalRecord.timeStamp.hours,
-                personalRecord.timeStamp.minutes,
-            )
+            subLabel = timeStampLabel
         }
 
-        is Achievement.PersonalRecord.Marathon -> {
-            imageResourceId = R.mipmap.fastest_marathon
+        is Achievement.PersonalRecord.Marathon         -> {
+            imageResourceId = R.drawable.fastest_marathon
             label = stringResource(id = R.string.label_marathon)
-            subLabel = stringResource(
-                id = R.string.label_time_hours_minutes,
-                personalRecord.timeStamp.hours,
-                personalRecord.timeStamp.minutes,
-            )
+            subLabel = timeStampLabel
         }
     }
 
@@ -301,11 +290,18 @@ private fun RowScope.PersonalRecordItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Image(
+        Box(
             modifier = Modifier.size(100.dp),
-            painter = painterResource(id = imageResourceId),
-            contentDescription = null,
-        )
+        ) {
+
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(id = imageResourceId),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.Center
+            )
+        }
 
         Spacer(modifier = Modifier.height(4.dp))
 
@@ -329,7 +325,17 @@ private fun RowScope.PersonalRecordItem(
 private fun VirtualRaceRow(
     virtualRaces: List<Achievement.VirtualRace>,
 ) {
-
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 16.dp)
+    ) {
+        virtualRaces.forEach { virtualRace ->
+            VirtualRaceItem(
+                virtualRace = virtualRace
+            )
+        }
+    }
 }
 
 @Composable
@@ -337,6 +343,82 @@ private fun RowScope.VirtualRaceItem(
     virtualRace: Achievement.VirtualRace,
 ) {
 
+    @DrawableRes
+    val imageResourceId = when (virtualRace.imageURL) {
+        ImageURL.VIRTUAL_HALF_MARATHON_RACE   -> {
+            R.drawable.virtual_half_marathon_race
+        }
+
+        ImageURL.TOKYO_HAKONE_EKIDEN_2020     -> {
+            R.drawable.tokyo_kakone_ekiden
+        }
+
+        ImageURL.VIRTUAL_10_K_RACE            -> {
+            R.drawable.virtual_10k_race
+        }
+
+        ImageURL.HAKONE_EKIDEN                -> {
+            R.drawable.hakone_ekiden
+        }
+
+        ImageURL.MIZUNO_SINGAPORE_EKIDEN_2015 -> {
+            R.drawable.mizuno_singapore_ekiden
+        }
+
+        ImageURL.VIRTUAL_5_K_RACE             -> {
+            R.drawable.virtual_5k_race
+        }
+    }
+
+
+    Column(
+        modifier = Modifier.weight(0.5F),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Image(
+            modifier = Modifier.size(100.dp),
+            painter = painterResource(id = imageResourceId),
+            contentDescription = null,
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            modifier = Modifier.sizeIn(maxWidth = 150.dp),
+            text = virtualRace.name,
+            style = MaterialTheme.typography.labelLarge,
+            textAlign = TextAlign.Center,
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = getTimeStampLabel(timestamp = virtualRace.timeStamp),
+            style = MaterialTheme.typography.labelMedium,
+        )
+    }
+
+}
+
+@Composable
+private fun getTimeStampLabel(timestamp: TimeStamp): String {
+    return with(timestamp) {
+        if (seconds != null) {
+            stringResource(
+                id = com.challenge.medalcase.R.string.label_time_hours_minutes_seconds,
+                hours,
+                minutes,
+                seconds,
+            )
+        } else {
+            stringResource(
+                id = com.challenge.medalcase.R.string.label_time_hours_minutes,
+                hours,
+                minutes,
+            )
+        }
+    }
 }
 
 @Preview(

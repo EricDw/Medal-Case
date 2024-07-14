@@ -2,7 +2,6 @@ package com.challenge.medalcase.ui.theme
 
 import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -39,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun MedalCaseTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false /*isSystemInDarkTheme()*/,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
@@ -50,8 +49,12 @@ fun MedalCaseTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme                                                      -> DarkColorScheme
-        else                                                           -> LightColorScheme
+        darkTheme                                                      -> {
+            DarkColorScheme
+        }
+        else                                                           -> {
+            LightColorScheme
+        }
     }
     val view = LocalView.current
     if (!view.isInEditMode) {

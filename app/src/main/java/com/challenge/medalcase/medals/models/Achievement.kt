@@ -1,5 +1,7 @@
 package com.challenge.medalcase.medals.models
 
+import com.challenge.medalcase.medals.samples.ImageURL
+
 sealed class Achievement {
 
     sealed class PersonalRecord : Achievement() {
@@ -41,6 +43,7 @@ sealed class Achievement {
     }
 
     data class VirtualRace(
+        val imageURL: ImageURL,
         val name: String,
         val timeStamp: TimeStamp,
     ): Achievement()
